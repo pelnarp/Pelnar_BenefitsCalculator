@@ -19,6 +19,7 @@ namespace Api.IoC
 
             builder.Services.AddSingleton<IPaycheckCalculator, PaycheckCalculator>();
             builder.Services.AddSingleton<IDeductionProcessor, DeductionProcessor>();
+            builder.Services.AddSingleton<IPaycheckCalculatorValidator, PaycheckCalculatorValidator>();
 
             builder.Services.AddSingleton<IDeductionRule, MonthlyBaseCostsDeductionRule>();
             builder.Services.AddSingleton<IDeductionRule, DependantDeductionRule>();

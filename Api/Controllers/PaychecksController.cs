@@ -19,7 +19,7 @@ public class PaychecksController : ControllerBase
     }
 
     [SwaggerOperation(Summary = "Get employee's single paycheck amount after deductions by Employee id")]
-    [HttpGet("{id}")]
+    [HttpGet("{employeeId}")]
     public async Task<ActionResult<ApiResponse<GetPaycheckDto>>> Get(int employeeId)
     {
         var employee = await employeeRepository.Get(employeeId);

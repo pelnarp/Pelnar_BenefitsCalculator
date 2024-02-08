@@ -6,25 +6,19 @@ namespace Api.Services
     {
         private readonly IConfiguration configuration;
         private readonly IDeductionProcessor deductionProcessor;
+        private readonly IPaycheckCalculatorValidator paycheckCalculatorValidator;
 
-        public PaycheckCalculator(IConfiguration configuration, IDeductionProcessor deductionProcessor)
+        public PaycheckCalculator(IConfiguration configuration, IDeductionProcessor deductionProcessor, IPaycheckCalculatorValidator paycheckCalculatorValidator)
         {
             this.configuration = configuration;
             this.deductionProcessor = deductionProcessor;
+            this.paycheckCalculatorValidator = paycheckCalculatorValidator;
         }
 
         public decimal CalculateEmployeePaychecks(Employee employee)
         {
-            // Initial Checks
-            if (employee == null)
-                throw new ArgumentException("Employee must not be null", nameof(employee));
-
-            if (employee.Salary < 0)
-                throw new ArgumentException($"Invalid salary value: {employee.Salary}", nameof(employee.Salary));
-
-            // Data requirement checks
-            if (employee.Dependents.Count(x => x.Relationship != Relationship.None && x.Relationship != Relationship.Child) > 1)
-                throw new ApplicationException($"Employee has more than one spouse or domestic partner. Employee ID: {employee.Id}");
+            // Make the business logic check for correct data
+            paycheckCalculatorValidator.ValidateForCalculation(employee);
 
             // Porcess all deductions
             var afterDeductions = this.deductionProcessor.GetSalaryAfterDeductions(employee);
