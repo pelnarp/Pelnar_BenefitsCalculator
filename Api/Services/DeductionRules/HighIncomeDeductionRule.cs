@@ -2,6 +2,9 @@
 
 namespace Api.Services.DeductionRules
 {
+    /// <summary>
+    /// employees that make more than $80,000 per year will incur an additional 2% of their yearly salary in benefits costs
+    /// </summary>
     public class HighIncomeDeductionRule : IDeductionRule
     {
         private readonly IConfiguration configuration;
