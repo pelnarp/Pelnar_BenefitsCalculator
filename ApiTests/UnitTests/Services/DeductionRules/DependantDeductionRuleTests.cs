@@ -56,7 +56,7 @@ public class DependantDeductionRuleTests
         // Act
         var result = target.GetDeduction(employee);
 
-        Assert.True(result == 3 * perDependant);
+        Assert.True(result == 3 * perDependant * 12);
     }
 
     // TODO: more tests...

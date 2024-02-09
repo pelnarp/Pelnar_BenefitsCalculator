@@ -11,7 +11,7 @@ namespace ApiTests.UnitTests.Services.DeductionRules;
 public class ElderyDeductionRuleTests
 {
     [Fact]
-    public async Task ForAgeAboveLimit_ShouldDeduct_200()
+    public async Task ForAgeAboveLimit_ShouldDeduct_12Times200()
     {
         //Arrange
         var ageLimit = 50;
@@ -31,11 +31,11 @@ public class ElderyDeductionRuleTests
         // Act
         var result = target.GetDeduction(employee);
 
-        Assert.True(result == ageLimitDeduction);
+        Assert.True(result == ageLimitDeduction * 12);
     }
 
     [Fact]
-    public async Task ForAgeAboveLimitOneHourOlder_ShouldDeduct_200()
+    public async Task ForAgeAboveLimitOneHourOlder_ShouldDeduct_12Times200()
     {
         //Arrange
         var ageLimit = 50;
@@ -55,7 +55,7 @@ public class ElderyDeductionRuleTests
         // Act
         var result = target.GetDeduction(employee);
 
-        Assert.True(result == ageLimitDeduction);
+        Assert.True(result == ageLimitDeduction * 12);
     }
 
     [Fact]

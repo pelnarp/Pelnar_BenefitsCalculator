@@ -16,7 +16,7 @@ namespace Api.Services.DeductionRules
             var ageLimit = int.Parse(configuration["ElderyAgeLimit"]); // Let's keep this configurable from the appsettings
             var ageLimitDeduction = int.Parse(configuration["ElderyAgeLimitDeduction"]); // Let's keep this configurable from the appsettings
 
-            return (employee.DateOfBirth <= DateTime.UtcNow.AddYears(-ageLimit)) ? ageLimitDeduction : 0; // if salary is above limit calculate 2%, otherwise 0
+            return (employee.DateOfBirth <= DateTime.UtcNow.AddYears(-ageLimit)) ? (ageLimitDeduction * 12) : 0; // if salary is above limit calculate 2%, otherwise 0
         }
     }
 }

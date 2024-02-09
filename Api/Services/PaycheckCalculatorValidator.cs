@@ -19,7 +19,7 @@ namespace Api.Services
             if (employee.Salary < 0)
                 throw new ArgumentException($"Invalid salary value: {employee.Salary}", nameof(employee.Salary));
 
-            // Data requirement checks
+            // Requirement: an employee may only have 1 spouse or domestic partner (not both)
             if (employee.Dependents.Count(x => x.Relationship != Relationship.None && x.Relationship != Relationship.Child) > 1)
                 throw new ApplicationException($"Employee has more than one spouse or domestic partner. Employee ID: {employee.Id}");
         }

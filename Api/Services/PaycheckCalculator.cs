@@ -27,7 +27,8 @@ namespace Api.Services
             // TODO: we might want to round the pieces and spread evenly the rounded values
             // This could also be a part of deduciton rules (if considered as transformation rules)
             var paycheckPerYear = int.Parse(configuration["PaychecksPerYear"]); // Let's keep this configurable from the appsettings
-            return afterDeductions / paycheckPerYear;
+
+            return afterDeductions / paycheckPerYear; // 26 paychecks per year with deductions spread as evenly as possible on each paycheck
         }
     }
 }

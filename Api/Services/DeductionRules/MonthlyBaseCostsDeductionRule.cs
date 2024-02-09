@@ -2,6 +2,9 @@
 
 namespace Api.Services.DeductionRules
 {
+    /// <summary>
+    /// employees have a base cost of $1,000 per month (for benefits)
+    /// </summary>
     public class MonthlyBaseCostsDeductionRule : IDeductionRule
     {
         private readonly IConfiguration configuration;
