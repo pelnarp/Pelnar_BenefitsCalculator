@@ -24,7 +24,7 @@ namespace Api.IoC
             builder.Services.AddSingleton<IDeductionRule, MonthlyBaseCostsDeductionRule>();
             builder.Services.AddSingleton<IDeductionRule, DependantDeductionRule>();
             builder.Services.AddSingleton<IDeductionRule, HighIncomeDeductionRule>();
-            builder.Services.AddSingleton<IDeductionRule, ElderyDeductionRule>();
+            builder.Services.AddSingleton<IDeductionRule, ElderyDependentDeductionRule>();
         }
     }
 }

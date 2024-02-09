@@ -2,11 +2,14 @@
 
 namespace Api.Services.DeductionRules
 {
-    public class ElderyDeductionRule : IDeductionRule
+    /// <summary>
+    /// dependents that are over 50 years old will incur an additional $200 per month
+    /// </summary>
+    public class ElderyDependentDeductionRule : IDeductionRule
     {
         private readonly IConfiguration configuration;
 
-        public ElderyDeductionRule(IConfiguration configuration)
+        public ElderyDependentDeductionRule(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
@@ -16,7 +19,9 @@ namespace Api.Services.DeductionRules
             var ageLimit = int.Parse(configuration["ElderyAgeLimit"]); // Let's keep this configurable from the appsettings
             var ageLimitDeduction = int.Parse(configuration["ElderyAgeLimitDeduction"]); // Let's keep this configurable from the appsettings
 
-            return (employee.DateOfBirth <= DateTime.UtcNow.AddYears(-ageLimit)) ? (ageLimitDeduction * 12) : 0; // if salary is above limit calculate 2%, otherwise 0
+            var elderyDependentsCount = employee.Dependents.Count(x => x.DateOfBirth <= DateTime.UtcNow.AddYears(-ageLimit));
+
+            return elderyDependentsCount * ageLimitDeduction * 12; // $200 per eldery dependant per month
         }
     }
 }

@@ -8,10 +8,10 @@ using Xunit;
 
 namespace ApiTests.UnitTests.Services.DeductionRules;
 
-public class ElderyDeductionRuleTests
+public class ElderyDependentDeductionRuleTests
 {
     [Fact]
-    public async Task ForAgeAboveLimit_ShouldDeduct_12Times200()
+    public async Task For2DependantsAgeAboveLimit_ShouldDeduct_Twice12Times200()
     {
         //Arrange
         var ageLimit = 50;
@@ -24,18 +24,29 @@ public class ElderyDeductionRuleTests
         }).Build();
         var employee = new Employee()
         {
-            DateOfBirth = DateTime.UtcNow.AddYears(-51)
+            Dependents = new List<Dependent>
+            {
+                new ()
+                {
+                    DateOfBirth = DateTime.UtcNow.AddYears(-51)
+                },
+                new ()
+                {
+                    DateOfBirth = DateTime.UtcNow.AddYears(-51)
+                }
+            }
+
         };
-        var target = new ElderyDeductionRule(configuration);
+        var target = new ElderyDependentDeductionRule(configuration);
 
         // Act
         var result = target.GetDeduction(employee);
 
-        Assert.True(result == ageLimitDeduction * 12);
+        Assert.True(result == 2 * ageLimitDeduction * 12);
     }
 
     [Fact]
-    public async Task ForAgeAboveLimitOneHourOlder_ShouldDeduct_12Times200()
+    public async Task ForOneDependantAgeAboveLimitOneHourOlder_ShouldDeduct_12Times200()
     {
         //Arrange
         var ageLimit = 50;
@@ -48,9 +59,17 @@ public class ElderyDeductionRuleTests
         }).Build();
         var employee = new Employee()
         {
+            Dependents = new List<Dependent>
+            {
+                new ()
+                {
             DateOfBirth = DateTime.UtcNow.AddYears(-50).AddHours(-1)
+                },
+            }
+
         };
-        var target = new ElderyDeductionRule(configuration);
+
+        var target = new ElderyDependentDeductionRule(configuration);
 
         // Act
         var result = target.GetDeduction(employee);
@@ -70,11 +89,22 @@ public class ElderyDeductionRuleTests
             {"ElderyAgeLimit", ageLimit.ToString()},
             {"ElderyAgeLimitDeduction", ageLimitDeduction.ToString()}
         }).Build();
+
         var employee = new Employee()
         {
-            DateOfBirth = DateTime.UtcNow.AddYears(-50).AddHours(1)
+            Dependents = new List<Dependent>
+            {
+                new ()
+                {
+                    DateOfBirth = DateTime.UtcNow.AddYears(-50).AddHours(1)
+                },
+                new ()
+                {
+                    DateOfBirth = DateTime.UtcNow.AddYears(-50).AddHours(1)
+                }
+            }
         };
-        var target = new ElderyDeductionRule(configuration);
+        var target = new ElderyDependentDeductionRule(configuration);
 
         // Act
         var result = target.GetDeduction(employee);
@@ -83,7 +113,7 @@ public class ElderyDeductionRuleTests
     }
 
     [Fact]
-    public async Task ForAgeBeloeLimit_ShouldNOTDeduct()
+    public async Task ForEmployeeWithoutDependants_ShouldNOTDeduct()
     {
         //Arrange
         var ageLimit = 50;
@@ -96,9 +126,8 @@ public class ElderyDeductionRuleTests
         }).Build();
         var employee = new Employee()
         {
-            DateOfBirth = DateTime.UtcNow.AddYears(-30)
         };
-        var target = new ElderyDeductionRule(configuration);
+        var target = new ElderyDependentDeductionRule(configuration);
 
         // Act
         var result = target.GetDeduction(employee);
